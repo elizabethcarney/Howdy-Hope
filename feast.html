@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css?family=Lovers+Quarrel" rel="stylesheet">
+  <title>Feast</title>
+  <meta name="author" content="Box of Candy">
+  <meta name="description" content="Talk to the box.">
+  <link href="feast.css" rel="stylesheet" type="text/css">
+  <script>
+	  var gotCuc = false;
+	  var gotCrane = false;
+	  var gotFridge = false;
+	  var id;
+	  
+	  function isOne(image) {
+		  id = image.id;
+		  
+		  if (id=="cuc") {
+			  gotCuc = true;
+		  } else if (id=="fridge") {
+			  gotFridge = true;
+		  } else if (id=="crane") {
+			  gotCrane = true;
+		  } else {
+			  gotCuc = false;
+			  gotFridge = false;
+			  gotCrane = false;
+		  }
+		  console.log("cuc ",gotCuc,"fridge ",gotFridge,"crane ",gotCrane);
+		  
+		  if (gotCuc && gotFridge && gotCrane) {
+		  	/*do something*/
+			  console.log("yup");
+			  window.location.href = 'Congrats.html';
+		  }
+	  }
+  </script>
+</head>
+
+<body>
+
+  <p>Choose your three ideal Valentine's Day gifts.</p>
+  
+  <div id="table" class="parent">
+	  
+  	<img class="table" src="images/table.png" height="400" onclick="isOne(this);">
+	
+	<img class="object" id="cuc" src="images/cucumber.png" height="60" onclick="isOne(this);">
+	
+	<img class="object" id="hat" src="images/hat.png" height="55" onclick="isOne(this);">
+	
+	<img class="object" id="fridge" src="images/fridge.png" height="80" onclick="isOne(this);">
+	
+	<img class="object" id="ring" src="images/ring.png" height="55" onclick="isOne(this);">
+	
+	<img class="object" id="boombox" src="images/boombox.png" height="90" onclick="isOne(this);">
+	
+	<img class="object" id="computer" src="images/computer.png" height="130" onclick="isOne(this);">
+	
+	<img class="object" id="baseball" src="images/baseball.png" height="30" onclick="isOne(this);">
+	
+	<img class="object" id="cake" src="images/cake.png" height="125" onclick="isOne(this);">
+	
+	<img class="object" id="duck" src="images/duck.png" height="54" onclick="isOne(this);">
+	
+	<img class="object" id="cheese" src="images/cheese.png" height="60" onclick="isOne(this);">
+	
+	<img class="object" id="flashlight" src="images/flashlight.png" height="60" onclick="isOne(this);">
+	
+	<img class="object" id="waterbottle" src="images/waterbottle.png" height="85" onclick="isOne(this);">
+	
+	<img class="object" id="crane" src="images/crane.png" height="45" onclick="isOne(this);">
+	
+	<img class="object" id="bananas" src="images/bananas.png" height="40" onclick="isOne(this);">
+	
+	<img class="object" id="chocolates" src="images/chocolates.png" height="75" onclick="isOne(this);">
+	
+	<img class="object" id="yarn" src="images/yarn.png" height="30" onclick="isOne(this);">
+	
+	<img class="object" id="gloves" src="images/gloves.png" height="60" onclick="isOne(this);">
+	
+	<img class="object" id="trophy" src="images/trophy.png" height="100" onclick="isOne(this);">
+	
+	<img class="object" id="lightbulb" src="images/lightbulb.png" height="40" onclick="isOne(this);">
+	
+	<img class="object" id="leaf" src="images/leaf.png" height="40" onclick="isOne(this);">
+	
+	<img class="object" id="book" src="images/book.png" height="40" onclick="isOne(this);">
+  </div>
+  
+</body>
+
+</html>

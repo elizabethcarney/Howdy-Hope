@@ -1,0 +1,67 @@
+/* CSS */
+
+body {
+	background-color: black;
+	opacity: 1;
+	transition: 2s opacity;
+}
+body.fade-out {
+	opacity: 0;
+	transition: none;
+}
+
+h2 {
+	color: white;
+	text-align: center;
+	text-decoration:none;
+	font-family:'Creepster', cursive;
+	font-size:100px;
+}
+
+.col {
+	float: left;
+	width: 16.66%;
+}
+
+.row::after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+.portal-open {
+	background-image: url("images/portalbg.jpg");
+	width: 135px;
+	height: 300px;
+	position: relative;
+	margin-left: 30px;
+	margin-right: 30px;
+	margin-bottom: 50px;
+	box-shadow: 2px 2px 3px grey;
+}
+
+.door:hover {
+	cursor: pointer;
+}
+
+.door-open {
+	margin: 0 auto;
+	-webkit-transform: perspective(700) rotateY(-140deg);
+	-webkit-transform-origin: 0% 0%;
+	-webkit-animation: door 1.5s;
+}
+
+@-webkit-keyframes door {
+	0% {
+		-webkit-transform: perspective(700) rotateY(0deg);
+		-webkit-animation-timing-function: ease-in;
+	}
+	50% {
+		-webkit-transform: perspective(700) rotateY(-70deg);
+		-webkit-animation-timing-function: ease-out;
+	}
+	100% {
+		-webkit-transform: perspective(700) rotateY(-140deg);
+		-webkit-animation-timing-function: ease-out;
+	}
+}

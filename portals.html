@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<link href="https://fonts.googleapis.com/css?family=Creepster" rel="stylesheet">
+<head>
+  <meta charset="utf-8">
+  <title>Howdy Hope</title>
+  <meta name="author" content="Box of Candy">
+  <meta name="description" content="Talk to the box.">
+
+  <link href="portals.css" rel="stylesheet" type="text/css">
+  
+  <script>
+	  window.onload = function () { document.body.className = ""; }
+	  
+	  async function door1Open() {
+		  document.getElementById('door1').setAttribute("class","door-open");
+		  await new Promise((resolve, reject) => setTimeout(resolve,1500));
+		  window.location.href = 'balloons.html';
+	  }
+	  async function door2Open() {
+		  document.getElementById('door2').setAttribute("class","door-open");
+		  await new Promise((resolve, reject) => setTimeout(resolve,1500));
+		  window.location.href = 'baseball.html';
+	  }
+	  async function door3Open() {
+		  document.getElementById('door3').setAttribute("class","door-open");
+		  await new Promise((resolve, reject) => setTimeout(resolve,1500));
+		  window.location.href = 'feast.html';
+	  }
+	  async function door4Open() {
+		  document.getElementById('door4').setAttribute("class","door-open");
+		  await new Promise((resolve, reject) => setTimeout(resolve,1500));
+		  window.location.href = 'puzzle.html';
+	  }
+	  async function door5Open() {
+		  document.getElementById('door5').setAttribute("class","door-open");
+		  await new Promise((resolve, reject) => setTimeout(resolve,1500));
+		  window.location.href = 'birds.html';
+	  }
+	  async function door6Open() {
+		  document.getElementById('door6').setAttribute("class","door-open");
+		  await new Promise((resolve, reject) => setTimeout(resolve,1500));
+		  window.location.href = 'finite.html';
+	  }
+  </script>
+  
+</head>
+
+<body>
+	
+  <script>document.body.className += ' fade-out';</script>
+  
+  <h2>Welcome</h2>
+
+  <div class="row">
+	
+	  <div class="col">
+		  <div class="portal-open">  
+		    <div class="door" onclick="door1Open();">
+		  	  <img id="door1" src="images/door.png"/>
+		    </div>
+		  </div>
+	  </div>
+
+	  <div class="col">
+		  <div class="portal-open">  
+		  	<div class="door" onclick="door2Open();">
+				<img id="door2" src="images/door.png"/>
+			</div>
+		  </div>
+	  </div>
+
+	  <div class="col">
+		  <div class="portal-open">  
+		  	<div class="door" onclick="door3Open();">
+				<img id="door3" src="images/door.png"/>
+			</div>
+		  </div>
+	  </div>
+  
+	  <div class="col"> 
+		  <div class="portal-open">  
+		  	<div class="door" onclick="door4Open();">
+				<img id="door4" src="images/door.png"/>
+			</div>
+		  </div>
+	  </div>
+  
+	  <div class="col">
+		  <div class="portal-open">  
+		  	<div class="door" onclick="door5Open();">
+				<img id="door5" src="images/door.png"/>
+			</div>
+		  </div>
+	  </div>
+  
+	  <div class="col">
+		  <div class="portal-open">  
+		  	<div class="door" onclick="door6Open();">
+				<img id="door6" src="images/door.png"/>
+			</div>
+		  </div>
+	  </div>
+  
+  </div>
+  
+</body>
+
+</html>

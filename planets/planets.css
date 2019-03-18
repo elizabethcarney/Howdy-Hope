@@ -1,0 +1,133 @@
+/* CSS */
+
+#canvas-holder {
+    position: relative;
+}
+
+.letter {
+    position: absolute;
+    height: 30px;
+    width: 25px;
+}
+
+.letter:hover {
+    cursor: pointer;
+}
+
+.letter:active {
+    border-style: solid;
+	border-color: transparent;
+}
+
+.a {
+    left: 50px;
+    top: 45px;
+}
+.b {
+    left: 95px;
+    top: 45px;
+}
+.c {
+    left: 136px;
+    top: 45px;
+}
+.d {
+    left: 180px;
+    top: 45px;
+}
+.e {
+    left: 223px;
+    top: 45px;
+}
+.f {
+    left: 265px;
+    top: 45px;
+    width: 20px;
+}
+.g {
+    left: 305px;
+    top: 45px;
+}
+
+.h {
+    left: 83px;
+    top: 95px;
+}
+.i {
+    left: 127px;
+    top: 95px;
+    width: 15px;
+}
+.j {
+    left: 157px;
+    top: 95px;
+    width: 15px;
+    height: 38px;
+}
+.k {
+    left: 190px;
+    top: 95px;
+}
+.l {
+    left: 230px;
+    top: 95px;
+}
+.m {
+    left: 273px;
+    top: 95px;
+}
+
+.n {
+    left: 684px;
+    top: 45px;
+}
+.o {
+    left: 730px;
+    top: 45px;
+}
+.p {
+    left: 775px;
+    top: 45px;
+}
+.q {
+    left: 818px;
+    top: 45px;
+}
+.r {
+    left: 864px;
+    top: 45px;
+}
+.s {
+    left: 905px;
+    top: 45px;
+}
+.t {
+    left: 947px;
+    top: 45px;
+}
+
+.u {
+    left: 703px;
+    top: 95px;
+}
+.v {
+    left: 750px;
+    top: 95px;
+}
+.w {
+    left: 792px;
+    top: 95px;
+    width: 35px;
+}
+.x {
+    left: 845px;
+    top: 95px;
+}
+.y {
+    left: 890px;
+    top: 95px;
+}
+.z {
+    left: 929px;
+    top: 95px;
+}

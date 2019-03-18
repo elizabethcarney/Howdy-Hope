@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<head>
+<title>Solar System</title>
+<meta charset="utf-8"/>
+<script src="three.min.js"></script>
+<script src="longa.js"></script>
+<link href="planets.css" rel="stylesheet" type="text/css">
+
+<!-- Elizabeth Carney -->
+
+<script>
+
+	alert("Please wait several seconds for the page to load.");
+
+    var scene, camera, renderer; // Three.js rendering basics.
+
+    var canvas; // The canvas on which the image is rendered.
+	var ctx;
+	
+    var dirLight; // Our directional light is global so we can change its position.
+    var angle = 0;    // The angle (about the y-axis) of the directional light.
+	
+	var verse;
+	var core;
+	var border;
+	var rim;
+	
+	var whiteSun;
+	var georgia;
+	var redSun;
+	
+	var murphy;
+	var persephone;
+
+	var v, e, r, s;
+	var gotv = false;
+	var gote = false;
+	var gotr = false;
+	var gots = false;
+    
+    // Create the scene. This function is called once, as soon as the page loads.
+    // The renderer has already been created before this function is called.
+    function createScene() {
+
+        renderer.setClearColor(0x000000, 0); // Set background color (0, or 0x000000, is black).
+		function initBkgnd() {
+			
+		}
+		
+        scene = new THREE.Scene(); // Create a new scene which we can add objects to.
+    
+        // create a camera, sitting on the positive z-axis.  The camera is not part of the scene.
+		var aspect = canvas.width/canvas.height;
+        camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
+        camera.position.z = 250; // pull back the camera
+		camera.position.y = 80;
+		camera.rotation.x = -.3;
+		
+		// LIGHTS
+		// ambient light
+		ambLight = new THREE.AmbientLight(0x404040);
+		scene.add(ambLight);
+        // directional light
+		dirLight = new THREE.DirectionalLight("white", 1);
+		dirLight.position.set( 0, 100, 0 );
+		scene.add(dirLight);
+		
+		// texture loader
+		var loader = new THREE.TextureLoader();
+		loader.load('galaxy-background.png' , function(texture) {
+			scene.background = texture;
+		})
+		
+	    // set up the sphere vars
+	    var radius, segments, rings;
+			
+		// WHITE SUN
+	    radius = 15; 
+		segments = 40;
+		rings = 40;	
+	    var whiteSunGeometry = new THREE.SphereGeometry(radius, segments, rings);
+		var whiteSunTexture = loader.load("white_sun.png");
+	    var whiteSunMaterial = new THREE.MeshPhongMaterial({ map: whiteSunTexture, opacity: 1, transparent: true });
+	    whiteSun = new THREE.Mesh(whiteSunGeometry, whiteSunMaterial);
+		scene.add(whiteSun);
+		// White Sun's point light
+		wSLight = new THREE.PointLight(0xffffff, 2, 1000);
+		wSLight.position.set(whiteSun.position.x, whiteSun.position.y, whiteSun.position.z);
+		scene.add(wSLight);
+			// LUX
+			radius = 3;
+			segments = 20;
+			rings = 20;
+			var luxGeometry = new THREE.SphereGeometry(radius, segments, rings);
+			var luxMaterial = new THREE.MeshPhongMaterial({ color: 0xffa737, opacity: 1, transparent: true });
+			var lux = new THREE.Mesh(luxGeometry, luxMaterial);
+			lux.position.set(45, 0, 0);
+			scene.add(lux);
+			// Lux's orbit ring
+			var luxRingGeo = new THREE.RingGeometry(lux.position.x - 0.5, lux.position.x + 0.5, 50, 50);
+			var luxRingMat = new THREE.MeshLambertMaterial({color: "white", side: THREE.DoubleSide});
+			var luxRing = new THREE.Mesh(luxRingGeo, luxRingMat);
+			luxRing.rotation.x = Math.PI/(2.2);
+			scene.add(luxRing);
+			// QIN SHI HUANG
+			radius = 2;
+			segments = 20;
+			rings = 20;
+			var qinshiGeometry = new THREE.SphereGeometry(radius, segments, rings);
+			var qinshiMaterial = new THREE.MeshPhongMaterial({ color: 0xffa737, opacity: 1, transparent: true });
+			var qinshi = new THREE.Mesh(qinshiGeometry, qinshiMaterial);
+			qinshi.position.set(-35, 0, 0);
+			scene.add(qinshi);
+			// Qin Shi Huang's orbit ring
+			var qinshiRingGeo = new THREE.RingGeometry(-1*qinshi.position.x - 0.5, -1*qinshi.position.x + 0.5, 50, 50);
+			var qinshiRingMat = new THREE.MeshLambertMaterial({color: "white", side: THREE.DoubleSide});
+			var qinshiRing = new THREE.Mesh(qinshiRingGeo, qinshiRingMat);
+			qinshiRing.rotation.x = Math.PI/(1.7);
+			scene.add(qinshiRing);
+			// Qin Shi Huang's second orbit ring
+			var qinshiRing2Geo = new THREE.RingGeometry(-1*qinshi.position.x - 3.5, -1*qinshi.position.x - 2.5, 50, 50);
+			var qinshiRing2 = new THREE.Mesh(qinshiRing2Geo, qinshiRingMat);
+			qinshiRing2.rotation.x = Math.PI/(1.7);
+			scene.add(qinshiRing2);
+		
+		// GEORGIA
+	    radius = 6; 
+		segments = 30;
+		rings = 30;	
+	    var georgiaGeometry = new THREE.SphereGeometry(radius, segments, rings);
+		var georgiaTexture = loader.load("georgia.png");
+	    var georgiaMaterial = new THREE.MeshPhongMaterial({ map: georgiaTexture, opacity: 1, transparent: true });
+	    georgia = new THREE.Mesh(georgiaGeometry, georgiaMaterial);
+		georgia.position.set(-120, 0, 0);
+		scene.add(georgia);
+		// Georgia's point light
+		georgiaLight = new THREE.PointLight(0xfffa65, 1, 100);
+		georgiaLight.position.set(georgia.position.x, georgia.position.y, georgia.position.z);
+		scene.add(georgiaLight);
+			// MURPHY
+			radius = 3;
+			segments = 20;
+			rings = 20;
+			var murphyGeometry = new THREE.SphereGeometry(radius, segments, rings);
+			var murphyMaterial = new THREE.MeshPhongMaterial({ color: "white", opacity: 1, transparent: true });
+			murphy = new THREE.Mesh(murphyGeometry, murphyMaterial);
+			murphy.position.set(-45, 0, 0);
+			scene.add(murphy);
+			// Murphy's orbit ring
+			var murphyRingGeo = new THREE.RingGeometry(-1*murphy.position.x - 0.5, -1*murphy.position.x + 0.5, 50, 50);
+			var murphyRingMat = new THREE.MeshLambertMaterial({color: 0xffa737, side: THREE.DoubleSide});
+			var murphyRing = new THREE.Mesh(murphyRingGeo, murphyRingMat);
+			murphyRing.rotation.x = Math.PI/(2.2);
+			scene.add(murphyRing);
+			// Murphy's second orbit ring
+			var murphyRing2Geo = new THREE.RingGeometry(-1*murphy.position.x - 5.5, -1*murphy.position.x - 4.5, 50, 50);
+			var murphyRing2 = new THREE.Mesh(murphyRing2Geo, murphyRingMat);
+			murphyRing2.rotation.x = Math.PI/(2.2);
+			scene.add(murphyRing2);
+				// HERA
+				radius = 2;
+				segments = 20;
+				rings = 20;
+				var heraGeometry = new THREE.SphereGeometry(radius, segments, rings);
+				var heraMaterial = new THREE.MeshPhongMaterial({ color: "lightblue", opacity: 1, transparent: true });
+				var hera = new THREE.Mesh(heraGeometry, heraMaterial);
+				hera.position.set(-8, 0, 0);
+				scene.add(hera);
+				// Hera's orbit ring
+				var heraRingGeo = new THREE.RingGeometry(-1*hera.position.x - 0.5, -1*hera.position.x + 0.5, 50, 50);
+				var heraRingMat = new THREE.MeshLambertMaterial({color: 0xffa737, side: THREE.DoubleSide});
+				var heraRing = new THREE.Mesh(heraRingGeo, heraRingMat);
+				heraRing.rotation.x = Math.PI/(1.7);
+				scene.add(heraRing);
+				// SHADOW
+				radius = 3;
+				segments = 20;
+				rings = 20;
+				var shadowGeometry = new THREE.SphereGeometry(radius, segments, rings);
+				var shadowMaterial = new THREE.MeshPhongMaterial({ color: "lightblue", opacity: 1, transparent: true });
+				var shadow = new THREE.Mesh(shadowGeometry, shadowMaterial);
+				shadow.position.set(16, 0, 0);
+				scene.add(shadow);
+				// Shadow's orbit ring
+				var shadowRingGeo = new THREE.RingGeometry(shadow.position.x - 0.5, shadow.position.x + 0.5, 50, 50);
+				var shadowRingMat = new THREE.MeshLambertMaterial({color: 0xffa737, side: THREE.DoubleSide});
+				var shadowRing = new THREE.Mesh(shadowRingGeo, shadowRingMat);
+				shadowRing.rotation.x = Math.PI/(2.1);
+				scene.add(shadowRing);
+			// DAEDALUS
+			radius = 4;
+			segments = 20;
+			rings = 20;
+			var daedGeometry = new THREE.SphereGeometry(radius, segments, rings);
+			var daedMaterial = new THREE.MeshPhongMaterial({ color: "lightblue", opacity: 1, transparent: true });
+			var daed = new THREE.Mesh(daedGeometry, daedMaterial);
+			daed.position.set(-12, 0, 0);
+			scene.add(daed);
+			// Deadalus's orbit ring
+			var daedRingGeo = new THREE.RingGeometry(-1*daed.position.x - 0.5, -1*daed.position.x + 0.5, 50, 50);
+			var daedRingMat = new THREE.MeshLambertMaterial({color: 0xffa737, side: THREE.DoubleSide});
+			var daedRing = new THREE.Mesh(daedRingGeo, daedRingMat);
+			daedRing.rotation.x = Math.PI/(1.9);
+			scene.add(daedRing);
+			// NEWHOPE
+			radius = 3.5;
+			segments = 20;
+			rings = 20;
+			var newhopeGeometry = new THREE.SphereGeometry(radius, segments, rings);
+			var newhopeMaterial = new THREE.MeshPhongMaterial({ color: "lightblue", opacity: 1, transparent: true });
+			var newhope = new THREE.Mesh(newhopeGeometry, newhopeMaterial);
+			newhope.position.set(25, 0, 0);
+			scene.add(newhope);
+			// Newhope's orbit ring
+			var newhopeRingGeo = new THREE.RingGeometry(newhope.position.x - 0.5, newhope.position.x + 0.5, 50, 50);
+			var newhopeRingMat = new THREE.MeshLambertMaterial({color: 0xffa737, side: THREE.DoubleSide});
+			var newhopeRing = new THREE.Mesh(newhopeRingGeo, newhopeRingMat);
+			newhopeRing.rotation.x = Math.PI/(1.7);
+			scene.add(newhopeRing);
+			// Newhope's second orbit ring
+			var newhopeRing2Geo = new THREE.RingGeometry(newhope.position.x - 3.5, newhope.position.x - 2.5, 50, 50);
+			var newhopeRing2 = new THREE.Mesh(newhopeRing2Geo, newhopeRingMat);
+			newhopeRing2.rotation.x = Math.PI/(1.7);
+			scene.add(newhopeRing2);
+		
+		// RED SUN
+	    radius = 6; 
+		segments = 30;
+		rings = 30;	
+	    var redSunGeometry = new THREE.SphereGeometry(radius, segments, rings);
+		var redSunTexture = loader.load("red_sun.png");
+	    var redSunMaterial = new THREE.MeshPhongMaterial({ map: redSunTexture, opacity: 1, transparent: true });
+	    redSun = new THREE.Mesh(redSunGeometry, redSunMaterial);
+		redSun.position.set(-1*georgia.position.x, 0, 0);
+		scene.add(redSun);
+		// Red Sun's point light
+		redSunLight = new THREE.PointLight(0xff4444, 1, 100);
+		redSunLight.position.set(redSun.position.x, redSun.position.y, redSun.position.z);
+		scene.add(redSunLight);
+		// Georgia and Red Sun's orbit ring
+		var georgiaRedGeo = new THREE.RingGeometry((-1*georgia.position.x) - 0.5, (-1*georgia.position.x) + 0.5, 70, 70);
+		var georgiaRedTexture = loader.load("redyellow.png");
+		var georgiaRedMaterial = new THREE.MeshLambertMaterial({map: georgiaRedTexture, side: THREE.DoubleSide});
+		var georgiaRedRing = new THREE.Mesh(georgiaRedGeo, georgiaRedMaterial);
+		georgiaRedRing.rotation.x = Math.PI/2;
+		scene.add(georgiaRedRing);
+			// HIMINBJORG
+			radius = 1.5;
+			segments = 20;
+			rings = 20;
+			var himinGeometry = new THREE.SphereGeometry(radius, segments, rings);
+			var himinMaterial = new THREE.MeshPhongMaterial({ color: 0xffa737, opacity: 1, transparent: true });
+			var himin = new THREE.Mesh(himinGeometry, himinMaterial);
+			himin.position.set(-15, 0, 0);
+			scene.add(himin);
+			// Himinbjorg's orbit ring
+			var himinRingGeo = new THREE.RingGeometry(-1*himin.position.x - 0.5, -1*himin.position.x + 0.5, 50, 50);
+			var himinRingMat = new THREE.MeshLambertMaterial({color: 0xbb0000, side: THREE.DoubleSide});
+			var himinRing = new THREE.Mesh(himinRingGeo, himinRingMat);
+			himinRing.rotation.x = Math.PI/(1.8);
+			scene.add(himinRing);
+				// ANVIL
+				radius = 1;
+				segments = 20;
+				rings = 20;
+				var anvilGeometry = new THREE.SphereGeometry(radius, segments, rings);
+				var anvilMaterial = new THREE.MeshPhongMaterial({ color: 0xffa737, opacity: 1, transparent: true });
+				var anvil = new THREE.Mesh(anvilGeometry, anvilMaterial);
+				anvil.position.set(-6, 0, 0);
+				scene.add(anvil);
+				// Anvil's orbit ring
+				var anvilRingGeo = new THREE.RingGeometry(-1*anvil.position.x - 0.5, -1*anvil.position.x + 0.5, 50, 50);
+				var anvilRingMat = new THREE.MeshLambertMaterial({color: 0xbb0000, side: THREE.DoubleSide});
+				var anvilRing = new THREE.Mesh(anvilRingGeo, anvilRingMat);
+				anvilRing.rotation.x = Math.PI/(1.7);
+				scene.add(anvilRing);
+			// HARVEST
+			radius = .8;
+			segments = 20;
+			rings = 20;
+			var harvestGeometry = new THREE.SphereGeometry(radius, segments, rings);
+			var harvestMaterial = new THREE.MeshPhongMaterial({ color: 0xffa737, opacity: 1, transparent: true });
+			var harvest = new THREE.Mesh(harvestGeometry, harvestMaterial);
+			harvest.position.set(25, 0, 0);
+			scene.add(harvest);
+			// Harvest's orbit ring
+			var harvestRingGeo = new THREE.RingGeometry(harvest.position.x - 0.5, harvest.position.x + 0.5, 50, 50);
+			var harvestRingMat = new THREE.MeshLambertMaterial({color: 0xbb0000, side: THREE.DoubleSide});
+			var harvestRing = new THREE.Mesh(harvestRingGeo, harvestRingMat);
+			harvestRing.rotation.x = Math.PI/(1.8);
+			scene.add(harvestRing);
+			// Harvest's second orbit ring
+			var harvestRing2Geo = new THREE.RingGeometry(harvest.position.x - 0.5, harvest.position.x + 0.5, 50, 50);
+			var harvestRing2 = new THREE.Mesh(harvestRing2Geo, harvestRingMat);
+			harvestRing2.rotation.x = Math.PI/(1.6);
+			scene.add(harvestRing2);
+
+		// LETTERS
+		// Persephone Label
+		var textloader = new THREE.FontLoader();
+		var font = textloader.load('longa.json', function(font) 
+		{
+			var persephoneGeo = new THREE.TextGeometry('P E R S E P H O N E', {
+				font: font,
+				size: 12,
+				height: .01,
+				curveSegments: 12,
+				bevelEnabled: true,
+				bevelThickness: 1,
+				bevelSize: 1,
+				bevelSegments: 5
+			});
+			var persephoneMat = new THREE.MeshLambertMaterial({color: "white"});
+			persephone = new THREE.Mesh(persephoneGeo, persephoneMat);
+			persephone.position.set(georgia.position.x - 40, georgia.position.y + 25, georgia.position.z);
+			scene.add(persephone);
+		});
+		// Blanks 
+		var blankgeometry = new THREE.BoxGeometry( 15, 1, 1 );
+		var blankmaterial = new THREE.MeshLambertMaterial( {color: "white"} );
+		var blank1 = new THREE.Mesh( blankgeometry, blankmaterial );
+		blank1.position.set(whiteSun.position.x, whiteSun.position.y + 65, whiteSun.position.z);
+		blank1.rotation.x = -1;
+		scene.add( blank1 );
+		var blank2 = new THREE.Mesh( blankgeometry, blankmaterial );
+		blank2.position.set(whiteSun.position.x - 20, whiteSun.position.y + 65, whiteSun.position.z);
+		blank2.rotation.x = -1;
+		scene.add( blank2 );
+		var blank3 = new THREE.Mesh( blankgeometry, blankmaterial );
+		blank3.position.set(whiteSun.position.x - 40, whiteSun.position.y + 65, whiteSun.position.z);
+		blank3.rotation.x = -1;
+		scene.add( blank3 );
+		var blank4 = new THREE.Mesh( blankgeometry, blankmaterial );
+		blank4.position.set(whiteSun.position.x + 20, whiteSun.position.y + 65, whiteSun.position.z);
+		blank4.rotation.x = -1;
+		scene.add( blank4 );
+		var blank5 = new THREE.Mesh( blankgeometry, blankmaterial );
+		blank5.position.set(whiteSun.position.x + 40, whiteSun.position.y + 65, whiteSun.position.z);
+		blank5.rotation.x = -1;
+		scene.add( blank5 );
+		textloader.load('longa.json', function(font) 
+		{
+			var AGeo = new THREE.TextGeometry('A   B   C   D   E   F   G', {
+				font: font,
+				size: 16,
+				height: .01,
+				curveSegments: 12,
+				bevelEnabled: true,
+				bevelThickness: 1,
+				bevelSize: 1,
+				bevelSegments: 5
+			});
+			var AMat = new THREE.MeshLambertMaterial({color: "white"});
+			A = new THREE.Mesh(AGeo, AMat);
+			A.position.set(-180, 80, 0);
+			scene.add(A);
+		});
+		textloader.load('longa.json', function(font) 
+		{
+			var HGeo = new THREE.TextGeometry('H   I   J   K   L   M', {
+				font: font,
+				size: 16,
+				height: .01,
+				curveSegments: 12,
+				bevelEnabled: true,
+				bevelThickness: 1,
+				bevelSize: 1,
+				bevelSegments: 5
+			});
+			var HMat = new THREE.MeshLambertMaterial({color: "white"});
+			H = new THREE.Mesh(HGeo, HMat);
+			H.position.set(-170, 60, 0);
+			scene.add(H);
+		});
+		textloader.load('longa.json', function(font) 
+		{
+			var NGeo = new THREE.TextGeometry('N   O   P   Q   R   S   T', {
+				font: font,
+				size: 16,
+				height: .01,
+				curveSegments: 12,
+				bevelEnabled: true,
+				bevelThickness: 1,
+				bevelSize: 1,
+				bevelSegments: 5
+			});
+			var NMat = new THREE.MeshLambertMaterial({color: "white"});
+			N = new THREE.Mesh(NGeo, NMat);
+			N.position.set(70, 80, 0);
+			scene.add(N);
+		});
+		textloader.load('longa.json', function(font) 
+		{
+			var UGeo = new THREE.TextGeometry('U   V   W   X   Y   Z', {
+				font: font,
+				size: 16,
+				height: .01,
+				curveSegments: 12,
+				bevelEnabled: true,
+				bevelThickness: 1,
+				bevelSize: 1,
+				bevelSegments: 5
+			});
+			var UMat = new THREE.MeshLambertMaterial({color: "white"});
+			U = new THREE.Mesh(UGeo, UMat);
+			U.position.set(80, 60, 0);
+			scene.add(U);
+		});
+		// VERSE
+		textloader.load('longa.json', function(font) 
+		{
+			var vGeo = new THREE.TextGeometry('V', {
+				font: font,
+				size: 20,
+				height: .01,
+				curveSegments: 12,
+				bevelEnabled: true,
+				bevelThickness: 1,
+				bevelSize: 1,
+				bevelSegments: 5
+			});
+			var verseMat = new THREE.MeshLambertMaterial({color: "white"});
+			v = new THREE.Mesh(vGeo, verseMat);
+			v.position.set(-45, 70, 0);
+			scene.add(v);
+			v.visible = false;
+		});
+		textloader.load('longa.json', function(font) 
+		{
+			var eGeo = new THREE.TextGeometry('E              E', {
+				font: font,
+				size: 20,
+				height: .01,
+				curveSegments: 12,
+				bevelEnabled: true,
+				bevelThickness: 1,
+				bevelSize: 1,
+				bevelSegments: 5
+			});
+			var verseMat = new THREE.MeshLambertMaterial({color: "white"});
+			e = new THREE.Mesh(eGeo, verseMat);
+			e.position.set(-25, 70, 0);
+			scene.add(e);
+			e.visible = false;
+		});
+		textloader.load('longa.json', function(font) 
+		{
+			var rGeo = new THREE.TextGeometry('R', {
+				font: font,
+				size: 20,
+				height: .01,
+				curveSegments: 12,
+				bevelEnabled: true,
+				bevelThickness: 1,
+				bevelSize: 1,
+				bevelSegments: 5
+			});
+			var verseMat = new THREE.MeshLambertMaterial({color: "white"});
+			r = new THREE.Mesh(rGeo, verseMat);
+			r.position.set(-5, 70, 0);
+			scene.add(r);
+			r.visible = false;
+		});
+		textloader.load('longa.json', function(font) 
+		{
+			var sGeo = new THREE.TextGeometry('S', {
+				font: font,
+				size: 20,
+				height: .01,
+				curveSegments: 12,
+				bevelEnabled: true,
+				bevelThickness: 1,
+				bevelSize: 1,
+				bevelSegments: 5
+			});
+			var verseMat = new THREE.MeshLambertMaterial({color: "white"});
+			s = new THREE.Mesh(sGeo, verseMat);
+			s.position.set(15, 70, 0);
+			scene.add(s);
+			s.visible = false;
+		});
+
+		
+		// HIERARCHY
+		verse = new THREE.Object3D();
+		scene.add(verse);
+		core = new THREE.Object3D();
+		scene.add(core);
+		border = new THREE.Object3D();
+		scene.add(border);
+		// The Verse
+		verse.add(core);
+		verse.add(border);
+		// The Core is the White Sun system
+		core.add(whiteSun);
+		core.add(wSLight);
+		whiteSun.add(lux);
+		whiteSun.add(luxRing);
+		whiteSun.add(qinshi);
+		whiteSun.add(qinshiRing);
+		whiteSun.add(qinshiRing2);
+		// The Border contains the Georgia system and the Red Sun system
+		border.add(georgiaRedRing);
+		border.add(georgia);
+		border.add(georgiaLight);
+		georgia.add(murphy);
+		georgia.add(murphyRing);
+		georgia.add(murphyRing2);
+		murphy.add(hera);
+		murphy.add(heraRing);
+		murphy.add(shadow);
+		murphy.add(shadowRing);
+		georgia.add(daed);
+		georgia.add(daedRing);
+		georgia.add(newhope);
+		georgia.add(newhopeRing);
+		georgia.add(newhopeRing2);
+		border.add(redSun);
+		border.add(redSunLight);
+		redSun.add(himin);
+		redSun.add(himinRing);
+		himin.add(anvil);
+		himin.add(anvilRing);
+		redSun.add(harvest);
+		redSun.add(harvestRing);
+		redSun.add(harvestRing2);
+	}
+		
+    // Render the scene. This is called for each frame of the animation.
+    function render() {
+		requestAnimationFrame(render);
+		
+		verse.rotation.y += 0.005;
+	
+		core.rotation.y += 0.03;
+		border.rotation.y += .003;
+		
+		whiteSun.rotation.y += .05;
+		georgia.rotation.y += .05;
+		redSun.rotation.y += .06;
+
+		murphy.rotation.y += .02;
+		
+		renderer.render(scene, camera);
+    }
+
+    //----------------------------------------------------------------------------------
+
+    // The init() function is called by the onload event when the document has loaded.
+    function init() {
+        try {
+            canvas = document.getElementById("glcanvas");
+            renderer = new THREE.WebGLRenderer( { canvas: canvas, antialias: true} );
+        }
+        catch (e) {
+            document.getElementById("canvas-holder").innerHTML = "<h3><b>WebGL is not available.</b><h3>";
+            return;
+        }
+    
+        // create world and render scene
+        createScene();
+        render();
+    }
+
+	async function seeE() {
+		e.visible = true;
+		gote = true;
+		if (gote && gotr && gots && gotv) {
+			await new Promise((resolve, reject) => setTimeout(resolve,1000));
+			window.location.href = 'portals3.html';
+		}
+	}
+	async function seeR() {
+		r.visible = true;
+		gotr = true;
+		if (gote && gotr && gots && gotv) {
+			await new Promise((resolve, reject) => setTimeout(resolve,1000));
+			window.location.href = 'portals3.html';
+		}
+	}
+	async function seeS() {
+		s.visible = true;
+		gots = true;
+		if (gote && gotr && gots && gotv) {
+			await new Promise((resolve, reject) => setTimeout(resolve,1000));
+			window.location.href = 'portals3.html';
+		}
+	}
+	async function seeV() {
+		v.visible = true;
+		gotv = true;
+		if (gote && gotr && gots && gotv) {
+			await new Promise((resolve, reject) => setTimeout(resolve,1000));
+			window.location.href = 'portals3.html';
+		}
+	}
+
+</script>
+
+</head>
+<body onload="init()">
+
+	<div id="canvas-holder">
+		<canvas id="glcanvas" width="1000" height="500"></canvas>
+	</div>
+
+	<div class="letter a"></div>
+	<div class="letter b"></div>
+	<div class="letter c"></div>
+	<div class="letter d"></div>
+	<div class="letter e" onclick="seeE();"></div>
+	<div class="letter f"></div>
+	<div class="letter g"></div>
+	<div class="letter h"></div>
+	<div class="letter i"></div>
+	<div class="letter j"></div>
+	<div class="letter k"></div>
+	<div class="letter l"></div>
+	<div class="letter m"></div>
+	<div class="letter n"></div>
+	<div class="letter o"></div>
+	<div class="letter p"></div>
+	<div class="letter q"></div>
+	<div class="letter r" onclick="seeR();"></div>
+	<div class="letter s" onclick="seeS();"></div>
+	<div class="letter t"></div>
+	<div class="letter u"></div>
+	<div class="letter v" onclick="seeV();"></div>
+	<div class="letter w"></div>
+	<div class="letter x"></div>
+	<div class="letter y"></div>
+	<div class="letter z"></div>
+
+</body>
+</html>
